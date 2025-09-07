@@ -1,10 +1,7 @@
-'use server';
-
-import { analyzeCropFactors, AnalyzeCropFactorsInput, AnalyzeCropFactorsOutput } from '../ai/flows/analyze-crop-factors';
-import { getWeatherData, GetWeatherDataInput, GetWeatherDataOutput } from '../ai/flows/get-weather-data';
-import { reverseGeocode as reverseGeocodeFlow, ReverseGeocodeInput, ReverseGeocodeOutput } from '../ai/flows/reverse-geocode';
-import { getCropRecommendations, GetCropRecommendationsInput, GetCropRecommendationsOutput } from '../ai/flows/get-crop-recommendations';
-
+import { analyzeCropFactors, AnalyzeCropFactorsInput, AnalyzeCropFactorsOutput } from './ai/flows/analyze-crop-factors';
+import { getWeatherData, GetWeatherDataInput, GetWeatherDataOutput } from './ai/flows/get-weather-data';
+import { reverseGeocode as reverseGeocodeFlow, ReverseGeocodeInput, ReverseGeocodeOutput } from './ai/flows/reverse-geocode';
+import { getCropRecommendations, GetCropRecommendationsInput, GetCropRecommendationsOutput } from './ai/flows/get-crop-recommendations';
 
 // --- Type definitions ---
 export type AnalysisResult = {
@@ -15,7 +12,6 @@ export type AnalysisResult = {
 export type WeatherDataResult = GetWeatherDataOutput;
 export type ReverseGeocodeResult = ReverseGeocodeOutput;
 export type CropRecommendationResult = GetCropRecommendationsOutput;
-
 
 type FactorScores = {
     [key: string]: number;
@@ -103,8 +99,7 @@ const calculateSimulatedYield = (
   return Math.round(simulatedYieldAcre * 10) / 10;
 };
 
-
-// --- Server Actions ---
+// --- Client Actions ---
 
 export async function getAnalysis(input: AnalyzeCropFactorsInput): Promise<AnalysisResult> {
   try {

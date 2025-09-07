@@ -1,5 +1,3 @@
-'use server';
-
 /**
  * @fileOverview This file defines a Genkit flow for analyzing the most influential factors affecting crop yield based on user input.
  *

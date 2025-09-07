@@ -1,19 +1,17 @@
-'use client';
-
 import { useState, useEffect } from 'react';
 import { Leaf, MapPin, Loader2, CalendarDays } from 'lucide-react';
-import type { AnalyzeCropFactorsInput } from '../ai/flows/analyze-crop-factors';
-import CropForm from '../components/crop-form';
-import ResultsDisplay from '../components/results-display';
+import type { AnalyzeCropFactorsInput } from './ai/flows/analyze-crop-factors';
+import CropForm from './components/crop-form';
+import ResultsDisplay from './components/results-display';
 import { getAnalysis, fetchWeather, reverseGeocode, fetchCropRecommendations } from './actions';
 import type { AnalysisResult as AnalysisResultType, WeatherDataResult, CropRecommendationResult } from './actions';
-import { useToast } from '../hooks/use-toast';
-import { Skeleton } from '../components/ui/skeleton';
-import { Card, CardContent, CardFooter, CardHeader } from '../components/ui/card';
-import { Button } from '../components/ui/button';
+import { useToast } from './hooks/use-toast';
+import { Skeleton } from './components/ui/skeleton';
+import { Card, CardContent, CardFooter, CardHeader } from './components/ui/card';
+import { Button } from './components/ui/button';
+import { Toaster } from './components/ui/toaster';
 
-
-export default function Home() {
+export default function App() {
   const [analysisResult, setAnalysisResult] = useState<AnalysisResultType | null>(null);
   const [weatherData, setWeatherData] = useState<WeatherDataResult | null>(null);
   const [cropRecommendations, setCropRecommendations] = useState<CropRecommendationResult | null>(null);
@@ -89,7 +87,6 @@ export default function Home() {
     // Automatically request location when component mounts
     handleLocationRequest();
   }, []);
-
 
   useEffect(() => {
     if (district) {
@@ -183,6 +180,7 @@ export default function Home() {
                  </CardFooter>
               )}
             </Card>
+            <Toaster />
         </div>
     )
   }
@@ -250,6 +248,7 @@ export default function Home() {
           <p>&copy; {new Date().getFullYear()} CropCast. All Rights Reserved.</p>
         </footer>
       </main>
+      <Toaster />
     </div>
   );
 }

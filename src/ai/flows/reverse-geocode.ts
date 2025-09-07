@@ -1,5 +1,3 @@
-'use server';
-
 /**
  * @fileOverview This file defines a Genkit flow for reverse geocoding coordinates to a district in Tamil Nadu, India.
  *
