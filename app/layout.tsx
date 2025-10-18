@@ -6,9 +6,14 @@ import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "CropCast - AI Crop Yield Prediction",
+  title: "CropCast - Yield Prediction and Analytics",
   description: "Predict crop yields with AI precision using CropCast",
   generator: "v0.app",
+  icons: {
+    icon: "/cropcast-icon.png",
+    apple: "/cropcast-icon.png",
+  },
+  manifest: "/site.webmanifest"
 }
 
 export default function RootLayout({
