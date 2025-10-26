@@ -26,31 +26,29 @@ export function Header() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#about" className="text-foreground hover:text-primary transition-colors">
+            <Link href="/about" className="text-foreground hover:text-[#0A4D3C] transition-colors">
               About
-            </a>
-            <a href="#features" className="text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link href="/features" className="text-foreground hover:text-[#0A4D3C] transition-colors">
               Features
-            </a>
-            <Link href="/predict" className="text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link href="/predict" className="text-foreground hover:text-[#0A4D3C] transition-colors">
               Predict Yield
             </Link>
-            <Link href="/dashboard" className="text-foreground hover:text-primary transition-colors">
+            <Link href="/dashboard" className="text-foreground hover:text-[#0A4D3C] transition-colors">
               Dashboard
+            </Link>
+            <Link href="/signin" className="text-foreground hover:text-[#0A4D3C] transition-colors">
+              Sign In
+            </Link>
+            <Link href="/get-started" className="bg-[#0A4D3C] text-white px-4 py-2 rounded-lg hover:bg-[#083D2F] transition-colors">
+              Get Started
             </Link>
           </nav>
 
-          <div className="flex items-center gap-3">
-            <Button variant="outline" className="hidden md:inline-flex bg-transparent">
-              Sign In
-            </Button>
-            <Link href="/predict">
-              <Button>Get Started</Button>
-            </Link>
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className="w-5 h-5" />
-            </Button>
-          </div>
+          <Button variant="ghost" size="icon" className="md:hidden">
+            <Menu className="w-5 h-5" />
+          </Button>
         </div>
       </div>
     </header>
