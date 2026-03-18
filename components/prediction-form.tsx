@@ -77,6 +77,27 @@ export function PredictionForm() {
     try {
       const apiData = transformFormDataToAPI(formData)
 
+      // Try to use .NET backend first, fall back to local API
+      try {
+        const backendResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5090"}/api/crop/predict`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(apiData),
+          }
+        )
+
+        if (backendResponse.ok) {
+          const result: PredictionResponse = await backendResponse.json()
+          setPrediction(result)
+          return
+        }
+      } catch (backendErr) {
+        console.warn("[v0] Backend not available, using local Gemini API:", backendErr)
+      }
+
+      // Fall back to local Gemini API
       const response = await fetch("/api/predict", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
