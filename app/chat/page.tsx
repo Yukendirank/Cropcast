@@ -2,7 +2,6 @@
 
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { ProtectedRoute } from "@/components/auth/protected-route"
 import { ChatWidget } from "@/components/chat/chat-widget"
 import { ChatProvider } from "@/lib/chat-context"
 import { Button } from "@/components/ui/button"
@@ -46,10 +45,8 @@ function ChatPageContent() {
 
 export default function ChatPage() {
   return (
-    <ProtectedRoute>
-      <ChatProvider>
-        <ChatPageContent />
-      </ChatProvider>
-    </ProtectedRoute>
+    <ChatProvider>
+      <ChatPageContent />
+    </ChatProvider>
   )
 }

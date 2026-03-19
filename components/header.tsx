@@ -33,10 +33,12 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Button variant="outline" className="hidden md:inline-flex bg-transparent">
-              Sign In
-            </Button>
-            <Link href="/predict">
+            <Link href="/signin">
+              <Button variant="outline" className="hidden md:inline-flex bg-transparent">
+                Sign In
+              </Button>
+            </Link>
+            <Link href="/get-started">
               <Button>Get Started</Button>
             </Link>
             <Button variant="ghost" size="icon" className="md:hidden">

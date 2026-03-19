@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { ProtectedRoute } from "@/components/auth/protected-route"
 import { DashboardCharts } from "@/components/dashboard-charts"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -13,8 +14,9 @@ export const metadata = {
 
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <ProtectedRoute>
+      <div className="min-h-screen bg-background">
+        <Header />
       <main className="py-12 px-4">
         <div className="container mx-auto max-w-7xl">
           {/* Header Section */}
@@ -110,6 +112,7 @@ export default function DashboardPage() {
         </div>
       </main>
       <Footer />
-    </div>
+      </div>
+    </ProtectedRoute>
   )
 }
