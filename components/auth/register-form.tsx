@@ -38,14 +38,19 @@ export function RegisterForm() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
+    mode: "onChange",
   })
+
+  const watchPassword = watch("password")
 
   const onSubmit = async (data: RegisterFormData) => {
     setIsSubmitting(true)
 
     try {
+      console.log("[v0] Registration data:", data)
       await registerUser(data.email, data.password, data.name)
       toast({
         title: "Success",
@@ -53,6 +58,7 @@ export function RegisterForm() {
       })
       router.push("/dashboard")
     } catch (error) {
+      console.error("[v0] Registration error:", error)
       const errorMessage = error instanceof Error ? error.message : "Registration failed"
       toast({
         title: "Registration Failed",
