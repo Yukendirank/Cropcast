@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { BarChart3, Target, Award, Lightbulb, AlertTriangle, AlertCircle } from "lucide-react"
+import { ExploreSection } from "./explore-section"
 import {
   Bar,
   BarChart,
@@ -305,6 +306,9 @@ export function PredictionResults({
           </div>
         </CardContent>
       </Card>
+
+      {/* Explore Section */}
+      <ExploreSection />
     </div>
   )
 }

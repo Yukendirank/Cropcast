@@ -18,12 +18,12 @@ export function Header() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#about" className="text-foreground hover:text-primary transition-colors">
-              About
-            </a>
-            <a href="#features" className="text-foreground hover:text-primary transition-colors">
+            <Link href="/" className="text-foreground hover:text-primary transition-colors">
+              Home
+            </Link>
+            <Link href="/features" className="text-foreground hover:text-primary transition-colors">
               Features
-            </a>
+            </Link>
             <Link href="/predict" className="text-foreground hover:text-primary transition-colors">
               Predict Yield
             </Link>
