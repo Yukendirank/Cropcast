@@ -247,20 +247,22 @@ class ApiClient {
 // Export singleton instance
 export const apiClient = new ApiClient()
 
-// Auth API endpoints
+// Auth API endpoints (using Next.js local routes for database access)
+const localApiClient = new ApiClient(typeof window !== "undefined" ? window.location.origin : "http://localhost:3000")
+
 export const authApi = {
   register: (data: { email: string; password: string; name: string }) =>
-    apiClient.post("/api/auth/register", data),
+    localApiClient.post("/api/auth/register", data),
 
   login: (data: { email: string; password: string }) =>
-    apiClient.post<{ token: string; user: unknown }>("/api/auth/login", data),
+    localApiClient.post<{ token: string; user: unknown }>("/api/auth/login", data),
 
   logout: () => {
     apiClient.clearToken()
     return Promise.resolve()
   },
 
-  getCurrentUser: () => apiClient.get("/api/auth/me"),
+  getCurrentUser: () => localApiClient.get("/api/auth/me"),
 }
 
 // Crop prediction API endpoints
