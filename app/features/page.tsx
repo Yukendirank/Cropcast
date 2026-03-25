@@ -50,18 +50,15 @@ export default function FeaturesPage() {
       <h1 className="text-4xl font-bold text-[#0A4D3C] text-center mb-8">Features</h1>
       
       {!isAuthenticated && (
-        <div className="mb-8 bg-green-50 border border-green-200 rounded-lg p-4 flex items-start gap-3">
+        <div className="mb-8 bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start gap-3">
           <div className="flex-shrink-0">
-            <svg className="h-5 w-5 text-green-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            <svg className="h-5 w-5 text-blue-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zm-11-1a1 1 0 100-2 1 1 0 000 2zm3 1a1 1 0 11-2 0 1 1 0 012 0zm3-1a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
             </svg>
           </div>
           <div className="flex-1">
-            <p className="text-sm text-green-800">
-              <Link href="/signin" className="font-semibold hover:text-green-900">
-                Sign in now
-              </Link>
-              {" "}to unlock advanced features and save your preferences.
+            <p className="text-sm text-blue-800">
+              You can explore all features freely. <Link href="/signin" className="font-semibold hover:text-blue-900">Sign in to save your data</Link> and access your dashboard.
             </p>
           </div>
         </div>

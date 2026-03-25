@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -10,9 +10,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { CloudRain, TestTube, Droplets, Sprout, Bug, Loader2, AlertCircle } from "lucide-react"
+import Link from "next/link"
 import { PredictionResults } from "./prediction-results"
 import { transformFormDataToAPI, type PredictionResponse } from "@/lib/gemini-api"
 import { LocationDataEntry } from "./location-data-entry"
+import { auth } from "@/lib/auth"
 
 interface PredictionData {
   rainfall: string
@@ -45,6 +47,12 @@ export function PredictionForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [prediction, setPrediction] = useState<PredictionResponse | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [showSavePrompt, setShowSavePrompt] = useState(false)
+
+  useEffect(() => {
+    setIsAuthenticated(auth.isAuthenticated())
+  }, [])
 
   const handleInputChange = (field: keyof PredictionData, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -89,6 +97,14 @@ export function PredictionForm() {
 
       const result: PredictionResponse = await response.json()
       setPrediction(result)
+
+      // If user is not authenticated, show save prompt
+      if (!isAuthenticated) {
+        setShowSavePrompt(true)
+      } else {
+        // TODO: Save prediction to backend for authenticated users
+        console.log("[v0] Saving prediction for authenticated user:", result)
+      }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred"
       setError(errorMessage)
@@ -345,13 +361,23 @@ export function PredictionForm() {
       </form>
 
       {prediction && (
-        <PredictionResults
-          prediction={prediction.predicted_yield_kg_per_hectare}
-          confidence={prediction.confidence_score}
-          formData={formData}
-          recommendations={prediction.recommendations}
-          riskFactors={prediction.risk_factors}
-        />
+        <>
+          {showSavePrompt && !isAuthenticated && (
+            <Alert className="bg-blue-50 border-blue-200">
+              <AlertCircle className="h-4 w-4 text-blue-600" />
+              <AlertDescription className="text-blue-800">
+                <strong>Want to save this prediction?</strong> <Link href="/signin" className="underline font-semibold hover:text-blue-900">Sign in here</Link> to save your results and access them anytime from your dashboard.
+              </AlertDescription>
+            </Alert>
+          )}
+          <PredictionResults
+            prediction={prediction.predicted_yield_kg_per_hectare}
+            confidence={prediction.confidence_score}
+            formData={formData}
+            recommendations={prediction.recommendations}
+            riskFactors={prediction.risk_factors}
+          />
+        </>
       )}
     </div>
   )

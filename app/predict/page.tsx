@@ -31,10 +31,7 @@ export default function PredictPage() {
             </div>
             <div className="flex-1">
               <p className="text-sm text-blue-800">
-                <Link href="/signin" className="font-semibold hover:text-blue-900">
-                  Sign in to save your predictions
-                </Link>
-                {" "}and access them anytime from your dashboard.
+                You can use predictions right now without login. <Link href="/signin" className="font-semibold hover:text-blue-900">Sign in to save your results</Link> and access them from your dashboard anytime.
               </p>
             </div>
           </div>
