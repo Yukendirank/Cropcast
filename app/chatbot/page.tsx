@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { AlertCircle, Loader2, Send, MessageSquare } from 'lucide-react'
+import { ChatMessage } from '@/components/chat-message'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -127,23 +128,15 @@ export default function ChatbotPage() {
                 <ScrollArea className="flex-1 pr-4 mb-4 border rounded-lg p-4 bg-gray-50">
                   <div ref={scrollRef} className="space-y-4">
                     {messages.map((message, idx) => (
-                      <div key={idx} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                        <div
-                          className={`max-w-xs px-4 py-3 rounded-lg ${
-                            message.role === 'user'
-                              ? 'bg-[#0A4D3C] text-white rounded-br-none'
-                              : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none'
-                          }`}
-                        >
-                          <p className="text-sm">{message.content}</p>
-                          <p className={`text-xs mt-1 ${message.role === 'user' ? 'text-blue-100' : 'text-gray-400'}`}>
-                            {new Date(message.timestamp).toLocaleTimeString([], {
-                              hour: '2-digit',
-                              minute: '2-digit',
-                            })}
-                          </p>
-                        </div>
-                      </div>
+                      <ChatMessage
+                        key={idx}
+                        role={message.role}
+                        content={message.content}
+                        timestamp={new Date(message.timestamp).toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      />
                     ))}
 
                     {loading && (
