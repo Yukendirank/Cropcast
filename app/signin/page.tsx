@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { login, auth } from "@/lib/auth";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -11,39 +12,27 @@ export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
 
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/Auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        }
-      );
+      const data = await login({ email, password });
 
-      const data = await response.json();
-
-      if (response.ok && data.token) {
+      if (data.token) {
         // Save JWT token
-        localStorage.setItem("token", data.token);
+        auth.setToken(data.token);
 
         // Redirect to dashboard
         router.push("/dashboard");
       } else {
-        alert(data.message || "Invalid credentials");
+        setError(data.message || "Invalid credentials");
       }
     } catch (error) {
-      alert("Server error. Please try again.");
+      setError("Server error. Please try again.");
     }
 
     setLoading(false);
@@ -55,6 +44,12 @@ export default function SignInPage() {
         <h1 className="text-3xl font-bold text-[#0A4D3C] text-center mb-6">
           Sign In to CropCast
         </h1>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded mb-6">
+            {error}
+          </div>
+        )}
 
         <form className="space-y-4" onSubmit={handleLogin}>
           <div>

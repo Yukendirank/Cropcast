@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { register, auth } from "@/lib/auth";
 
 export default function GetStartedPage() {
   const router = useRouter();
@@ -14,41 +15,35 @@ export default function GetStartedPage() {
   const [password, setPassword] = useState("");
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
 
     try {
-      const response = await fetch("http://localhost:5000/api/Auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          password,
-          location,
-        }),
+      const data = await register({
+        firstName,
+        lastName,
+        email,
+        password,
+        location,
       });
 
-      const data = await response.json();
-
-      if (response.ok && data.token) {
+      if (data.token) {
         // Save token and redirect
-        localStorage.setItem("token", data.token);
+        auth.setToken(data.token);
         router.push("/dashboard");
       } else {
         const errorMsg =
           data.errors
             ? Object.values(data.errors).flat().join("\n")
             : data.message || "Registration failed.";
-        alert(errorMsg);
+        setError(errorMsg);
       }
     } catch (error) {
-      alert("Server error. Please try again.");
+      setError("Server error. Please try again.");
     }
 
     setLoading(false);
@@ -60,6 +55,12 @@ export default function GetStartedPage() {
         <h1 className="text-3xl font-bold text-[#0A4D3C] text-center mb-6">
           Create Your Account
         </h1>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded mb-6 whitespace-pre-wrap">
+            {error}
+          </div>
+        )}
 
         <form className="space-y-4" onSubmit={handleRegister}>
           <div className="grid grid-cols-2 gap-4">
