@@ -1,14 +1,67 @@
-import React from 'react';
+"use client";
+
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import Link from 'next/link';
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function GetStartedPage() {
+  const router = useRouter();
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [location, setLocation] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/Auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          password,
+          location,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.token) {
+        // Save token and redirect
+        localStorage.setItem("token", data.token);
+        router.push("/dashboard");
+      } else {
+        const errorMsg =
+          data.errors
+            ? Object.values(data.errors).flat().join("\n")
+            : data.message || "Registration failed.";
+        alert(errorMsg);
+      }
+    } catch (error) {
+      alert("Server error. Please try again.");
+    }
+
+    setLoading(false);
+  };
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-md">
       <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-[#0A4D3C] text-center mb-6">Create Your Account</h1>
-        
-        <form className="space-y-4">
+        <h1 className="text-3xl font-bold text-[#0A4D3C] text-center mb-6">
+          Create Your Account
+        </h1>
+
+        <form className="space-y-4" onSubmit={handleRegister}>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
@@ -17,8 +70,9 @@ export default function GetStartedPage() {
               <input
                 type="text"
                 id="firstName"
-                name="firstName"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0A4D3C]"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 required
               />
             </div>
@@ -29,8 +83,9 @@ export default function GetStartedPage() {
               <input
                 type="text"
                 id="lastName"
-                name="lastName"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0A4D3C]"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 required
               />
             </div>
@@ -43,8 +98,9 @@ export default function GetStartedPage() {
             <input
               type="email"
               id="email"
-              name="email"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0A4D3C]"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
@@ -56,22 +112,24 @@ export default function GetStartedPage() {
             <input
               type="password"
               id="password"
-              name="password"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0A4D3C]"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
 
           <div>
-            <label htmlFor="farmLocation" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
               Farm Location
             </label>
             <input
               type="text"
-              id="farmLocation"
-              name="farmLocation"
+              id="location"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0A4D3C]"
               placeholder="City, State"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
               required
             />
           </div>
@@ -88,14 +146,18 @@ export default function GetStartedPage() {
             </label>
           </div>
 
-          <Button className="w-full bg-[#0A4D3C] text-white py-2 rounded-md hover:bg-[#083D2F] transition-colors">
-            Create Account
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-[#0A4D3C] text-white py-2 rounded-md hover:bg-[#083D2F] transition-colors"
+          >
+            {loading ? "Creating Account..." : "Create Account"}
           </Button>
         </form>
 
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <Link href="/signin" className="text-[#0A4D3C] hover:text-[#083D2F] font-semibold">
               Sign In
             </Link>
