@@ -49,19 +49,19 @@ export async function POST(request: NextRequest) {
 
     const systemPrompt = createSystemPrompt(body.crop, body.location)
 
-    // Build conversation history for context
-    const messages = []
+    // Build conversation history for context (excluding the current message)
+    const history = []
 
     // Add conversation history if provided
     if (body.conversationHistory && body.conversationHistory.length > 0) {
       for (const msg of body.conversationHistory) {
         if (msg.role === "user") {
-          messages.push({
+          history.push({
             role: "user",
             parts: [{ text: msg.content }],
           })
-        } else {
-          messages.push({
+        } else if (msg.role === "model" || msg.role === "assistant") {
+          history.push({
             role: "model",
             parts: [{ text: msg.content }],
           })
@@ -69,19 +69,13 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Add current message
-    messages.push({
-      role: "user",
-      parts: [{ text: body.message }],
-    })
-
-    // Start chat session with system prompt
+    // Start chat session with system prompt and previous history
     const chat = model.startChat({
-      history: messages,
+      history: history.length > 0 ? history : undefined,
       systemInstruction: systemPrompt,
     })
 
-    // Send the message
+    // Send the current message (this will be added to history automatically)
     const result = await chat.sendMessage(body.message)
     const responseText = result.response.text()
 
