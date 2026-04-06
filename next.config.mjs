@@ -9,12 +9,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  webpack: (config, { dev }) => {
-    if (dev) {
-      config.cache = {
-        type: 'memory',
-      }
-    }
+  webpack: (config) => {
+    // Disable webpack caching entirely to prevent file system errors
+    config.cache = false
     return config
   },
 }
