@@ -9,11 +9,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  webpack: (config) => {
-    // Disable webpack caching entirely to prevent file system errors
-    config.cache = false
-    return config
-  },
+
 }
 
 export default nextConfig
