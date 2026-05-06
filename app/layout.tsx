@@ -11,10 +11,6 @@ export const metadata: Metadata = {
   title: "CropCast - Yield Prediction and AI Analytics",
   description: "AI-powered crop yield predictions and smart farming insights.",
   generator: "v0.app",
-  // icons: {
-  //   icon: "/cropcast-icon.png",
-  //   apple: "/cropcast-icon.png",
-  // },
   manifest: "/site.webmanifest"
 }
 
@@ -25,6 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* 🔥 Force favicon (VERY IMPORTANT) */}
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body className={`font-sans antialiased ${GeistSans.variable} ${GeistMono.variable}`}>
         <Header />
         {children}
