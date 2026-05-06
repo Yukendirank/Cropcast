@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   description: "AI-powered crop yield predictions and smart farming insights.",
   generator: "v0.app",
   icons: {
-    icon: "/cropcast3.jpeg",
-    apple: "/cropcast3.jpeg",
+    icon: "/cropcast-icon.jpeg",
+    apple: "/cropcast-icon.jpeg",
   },
   manifest: "/site.webmanifest"
 }
