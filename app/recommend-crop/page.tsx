@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { Sprout, Loader2, ChevronDown, ChevronUp, Star, Clock, TrendingUp, MapPin, Thermometer, Droplets, CloudRain, FlaskConical, Info, Zap, LocateFixed } from 'lucide-react'
 
 interface FormState {
@@ -62,17 +62,44 @@ const getCropEmoji = (name: string) => {
 
 function Tooltip({ text }: { text: string }) {
   const [show, setShow] = useState(false)
+  const timeoutRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) window.clearTimeout(timeoutRef.current)
+    }
+  }, [])
+
+  const openTooltip = () => {
+    if (timeoutRef.current) window.clearTimeout(timeoutRef.current)
+    timeoutRef.current = window.setTimeout(() => setShow(true), 150)
+  }
+
+  const closeTooltip = () => {
+    if (timeoutRef.current) window.clearTimeout(timeoutRef.current)
+    setShow(false)
+  }
+
   return (
     <span className="relative inline-flex">
-      <button type="button" onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}
-        onFocus={() => setShow(true)} onBlur={() => setShow(false)}
-        className="text-gray-400 hover:text-[#0A4D3C] transition-colors ml-1 align-middle">
+      <button
+        type="button"
+        onMouseEnter={openTooltip}
+        onMouseLeave={closeTooltip}
+        onFocus={openTooltip}
+        onBlur={closeTooltip}
+        className="text-gray-400 hover:text-[#0A4D3C] transition-colors ml-1 align-middle"
+        aria-label="Field help"
+      >
         <Info className="w-3.5 h-3.5" />
       </button>
       {show && (
-        <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 z-50 shadow-xl leading-relaxed pointer-events-none">
+        <span
+          role="tooltip"
+          className="absolute bottom-full left-1/2 z-50 w-72 max-w-xs -translate-x-1/2 mb-2 rounded-2xl border border-slate-200 bg-white/90 px-3 py-2 text-sm text-slate-700 shadow-md shadow-slate-300/40 backdrop-blur-sm transition-all duration-200 pointer-events-none"
+        >
           {text}
-          <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900" />
+          <span className="absolute left-1/2 top-full -translate-x-1/2 h-3 w-3 rotate-45 rounded-sm bg-white/90 border border-slate-200/70" />
         </span>
       )}
     </span>
@@ -135,6 +162,15 @@ export default function RecommendCropPage() {
       setLocating(false)
     }
   }
+
+  const handleReset = () => {
+    setForm(EMPTY)
+    setResults([])
+    setError('')
+    setExpanded(0)
+  }
+
+  const formIsEmpty = Object.values(form).every((value) => value === '')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -320,12 +356,25 @@ export default function RecommendCropPage() {
                   </div>
                 </div>
 
-                <button type="submit" disabled={loading}
-                  className="w-full bg-[#0A4D3C] text-white py-3 rounded-xl hover:bg-[#083D2F] active:scale-95 disabled:opacity-50 font-semibold flex items-center justify-center gap-2 transition-all shadow-sm">
-                  {loading
-                    ? <><Loader2 className="w-4 h-4 animate-spin" /> Analysing conditions...</>
-                    : <><Sprout className="w-4 h-4" /> Get Recommendations</>}
-                </button>
+                <div className="flex flex-col gap-3 pt-4 mt-4 border-t border-gray-200 sm:flex-row sm:justify-end sm:items-center">
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    disabled={formIsEmpty || loading}
+                    className="rounded-lg bg-red-50 px-4 py-2 text-sm font-semibold text-red-600 transition-all duration-200 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    ⟲ Clear
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full sm:w-auto bg-[#0A4D3C] text-white py-3 rounded-xl hover:bg-[#083D2F] active:scale-95 disabled:opacity-50 font-semibold flex items-center justify-center gap-2 transition-all shadow-sm"
+                  >
+                    {loading
+                      ? <><Loader2 className="w-4 h-4 animate-spin" /> Analysing conditions...</>
+                      : <><Sprout className="w-4 h-4" /> Get Recommendations</>}
+                  </button>
+                </div>
               </form>
             </div>
           </div>

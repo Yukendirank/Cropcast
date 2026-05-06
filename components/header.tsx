@@ -1,11 +1,11 @@
 'use client'
 
 import Link from "next/link"
-import Image from "next/image"
 import { useState, useEffect, useRef } from "react"
 import { auth } from "@/lib/auth"
 import { useRouter } from "next/navigation"
 import { Menu, X, ChevronDown, Sparkles } from "lucide-react"
+import { Logo } from "@/components/logo"
 
 const NAV_FEATURES = [
   { href: '/predict', label: '🌾 Yield Prediction' },
@@ -75,16 +75,7 @@ export function Header() {
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-            <div className="relative w-9 h-9 flex-shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-              <div className="absolute inset-0 bg-green-400/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <Image src="/cropcast-icon.png" alt="CropCast" width={36} height={36} className="object-contain relative z-10" priority />
-            </div>
-            <div>
-              <p className="text-base font-bold text-[#0A4D3C] leading-tight tracking-tight">CropCast</p>
-              <p className="text-[10px] text-gray-400 leading-tight hidden sm:block font-medium">AI Yield Prediction</p>
-            </div>
-          </Link>
+          <Logo />
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-0.5">

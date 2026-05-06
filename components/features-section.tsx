@@ -18,13 +18,6 @@ export function FeaturesSection() {
 
   return (
     <section id="features" className="relative py-24 px-4 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-green-50/30 to-white -z-10" />
-      <div className="absolute inset-0 -z-10" style={{
-        backgroundImage: 'linear-gradient(#0A4D3C08 1px, transparent 1px), linear-gradient(90deg, #0A4D3C08 1px, transparent 1px)',
-        backgroundSize: '40px 40px'
-      }} />
-
       <div className="container mx-auto max-w-6xl">
         {/* Section header */}
         <div className="text-center mb-16">
@@ -51,7 +44,7 @@ export function FeaturesSection() {
             {inputFeatures.map((feature, index) => (
               <div
                 key={index}
-                className={`group relative bg-white border ${feature.border} rounded-2xl p-5 hover:shadow-lg ${feature.glow} hover:-translate-y-1 transition-all duration-300 cursor-default overflow-hidden`}
+                className={`group relative bg-white shadow-md border border-gray-100 rounded-2xl p-5 hover:shadow-xl ${feature.glow} hover:-translate-y-1 transition-all duration-300 cursor-default overflow-hidden`}
                 style={{ animationDelay: `${index * 80}ms` }}
               >
                 {/* Hover shimmer */}
@@ -82,7 +75,7 @@ export function FeaturesSection() {
             {outputFeatures.map((feature, index) => (
               <div
                 key={index}
-                className={`group relative bg-white border ${feature.border} rounded-2xl p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default`}
+                className={`group relative bg-white shadow-md border border-gray-100 rounded-2xl p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-default`}
               >
                 <div className="flex items-start gap-4">
                   <div className={`w-12 h-12 ${feature.bg} border ${feature.border} rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300`}>

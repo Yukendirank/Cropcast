@@ -1,25 +1,9 @@
-import { Button } from "@/components/ui/button"
 import { ArrowRight, Leaf, Zap, Shield, TrendingUp } from "lucide-react"
 import Link from "next/link"
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden py-24 px-4">
-      {/* Rich layered background */}
-      <div className="absolute inset-0 -z-10">
-        {/* Base gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-emerald-50/40 to-white" />
-        {/* Animated blobs */}
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-green-200/40 to-emerald-300/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s' }} />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-amber-200/30 to-yellow-100/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '8s', animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-0 w-64 h-64 bg-green-100/50 rounded-full blur-2xl" />
-        {/* Dot grid pattern */}
-        <div className="absolute inset-0 opacity-[0.015]" style={{
-          backgroundImage: 'radial-gradient(circle, #0A4D3C 1px, transparent 1px)',
-          backgroundSize: '32px 32px'
-        }} />
-      </div>
-
+    <section className="relative py-24 px-4">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center">
           {/* Badge */}
@@ -115,11 +99,11 @@ export function HeroSection() {
             },
           ].map(({ emoji, title, desc, href, gradient, border, glow, accent }) => (
             <Link key={href} href={href} className="group">
-              <div className={`relative bg-gradient-to-br ${gradient} border ${border} rounded-3xl p-7 h-full hover:shadow-xl ${glow} hover:-translate-y-2 transition-all duration-300 overflow-hidden`}>
+              <div className={`relative bg-white shadow-md border border-gray-100 rounded-3xl p-7 h-full hover:shadow-xl ${glow} hover:-translate-y-2 transition-all duration-300 overflow-hidden`}>
                 {/* Top accent line */}
                 <div className={`absolute top-0 left-8 right-8 h-0.5 ${accent} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-full`} />
                 {/* Background glow on hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-white/40 to-transparent" />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-white/20 to-transparent" />
 
                 <div className="relative z-10">
                   <div className="text-5xl mb-5 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300 inline-block">{emoji}</div>

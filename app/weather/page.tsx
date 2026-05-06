@@ -75,6 +75,13 @@ export default function WeatherPage() {
     fetchWeather(`city=${encodeURIComponent(city.trim())}`)
   }
 
+  const handleClearSearch = () => {
+    setCity('')
+    setError('')
+  }
+
+  const searchIsEmpty = city.trim() === ''
+
   const handleLocate = () => {
     if (!navigator.geolocation) {
       setError('Geolocation not supported in this browser.')
@@ -140,16 +147,22 @@ export default function WeatherPage() {
 
         {/* Search */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
-          <form onSubmit={handleSearch} className="flex gap-3 mb-4">
+          <form onSubmit={handleSearch} className="flex flex-col gap-3 mb-4 sm:flex-row sm:items-end">
             <div className="relative flex-1">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input type="text" placeholder="Enter city name..." value={city} onChange={e => setCity(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-colors text-sm" />
             </div>
-            <button type="submit" disabled={loading}
-              className="bg-[#0A4D3C] text-white px-6 py-3 rounded-xl hover:bg-[#083D2F] active:scale-95 disabled:opacity-50 font-medium transition-all">
-              Search
-            </button>
+            <div className="flex gap-3">
+              <button type="button" onClick={handleClearSearch} disabled={searchIsEmpty || loading}
+                className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-600 transition-all duration-200 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50">
+                ⟲ Clear
+              </button>
+              <button type="submit" disabled={loading}
+                className="bg-[#0A4D3C] text-white px-6 py-3 rounded-xl hover:bg-[#083D2F] active:scale-95 disabled:opacity-50 font-medium transition-all">
+                Search
+              </button>
+            </div>
           </form>
           <div className="flex items-center gap-3 flex-wrap">
             <button onClick={handleLocate} disabled={loading || usingLocation}

@@ -123,6 +123,12 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background-image: url('/images/agri-bg.svg'), radial-gradient(circle at top left, rgba(34,197,94,0.12), transparent 28%), linear-gradient(180deg, #f0fdf4 0%, #ecfdf5 100%);
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-position: center top, left top, center center;
+    background-size: cover, auto, cover;
+    background-attachment: fixed;
+    min-height: 100vh;
   }
 }
